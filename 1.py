@@ -1,19 +1,20 @@
 from math import sqrt
-FUNCTION = lambda x: x*x + 3*x - 10
-DELTA = 2e-1
-EPS = 5e-1
+FUNCTION = lambda x: x*x - 2*x + 5
+EPS = 1e-5#5e-1
+DELTA =  EPS / 2#2e-1
 GOLD_RAT_C = (1 + sqrt(5) ) / 2
 A,B = (-2,8)
 
-def dichotomy(a,b,f= FUNCTION,delta= DELTA , eps= EPS ):
+
+def dichotomy(a,b,f= FUNCTION,delta= DELTA , eps= EPS, i = 0 ):
 	middle = ( a + b ) / 2
 	if b - a < 2 * eps:
-		return middle
-
+		return (middle,i)
 	if f(middle - delta) < f(middle + delta):
-		return dichotomy(a,middle - delta)
+		return dichotomy(a,middle - delta, i= i+1)
 	else:
-		return dichotomy(middle + delta,b)
+		return dichotomy(middle + delta,b, i= i+1)
+
 
 def get_fib_num_more_than(val):
 	a = 1
@@ -56,8 +57,8 @@ def Fibonacci(a,b,f= FUNCTION,delta= DELTA , eps= EPS):
 			fy = f(y)
 	y += delta
 	if fx < f(y):
-		return (a + y) / 2
-	return (x + b) / 2
+		return ((a + y) / 2,n)
+	return ((x + b) / 2 , n)
 
 
 def golden_ratio(a,b,f= FUNCTION, eps= EPS):
@@ -65,6 +66,7 @@ def golden_ratio(a,b,f= FUNCTION, eps= EPS):
 	x = a + b - y
 	fx = f(x)
 	fy = f(y)
+	i = 0
 	while b - a > 2 * eps:
 
 		if fx < fy:
@@ -83,15 +85,16 @@ def golden_ratio(a,b,f= FUNCTION, eps= EPS):
 
 			y = a + b - x
 			fy = f(y)
+		i += 1
 
-	return (a + b) / 2
+	return ((a + b) / 2 , i)
 
 
 
 def main():
-	print(dichotomy(A,B))
-	print(Fibonacci(A,B))
-	print(golden_ratio(A,B))	
+	print("dichotomy ",dichotomy(A,B))
+	print("Fibonacci ",Fibonacci(A,B))
+	print("golden_ratio ",golden_ratio(A,B))	
 
 if __name__ == '__main__':
  	main() 
