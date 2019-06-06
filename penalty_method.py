@@ -19,14 +19,13 @@ elif EXAMPLE == 2:
 
 
 X0 = (1,1)  
-R0 = 10
+R0 = 1e-1
 
-C = 2
+C = 4
 
 def cut(x):
-	if x < 0:
-		return 0
-	return x
+	return max(0,x)
+
 
 def penalty_method(x0= X0,r0=R0,f= FUNCTION,g_active= G_ACTIVE,g_passive= G_PASSIVE,c=C,eps= EPS,k=0):
 	p = lambda x1,x2,r: ((r**k)/2)*(sum(g(x1,x2)**2 for g in g_active) +
